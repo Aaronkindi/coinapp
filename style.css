@@ -1,0 +1,350 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+}
+
+
+.user-img{
+    width: 50px;
+    border-radius: 100%;
+    border: 1px solid #eee;
+
+}
+
+.sidebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 115vh;
+    width: 80px;
+    background-color: #12171e;
+    padding: .4rem .8rem;
+    transition: all 0.5s ease;
+}
+
+.sidebar.active ~ .main-content{
+    left: 250px;
+    width: calc(100%-250px);
+
+}
+
+.sidebar.active {
+   width: 250px; 
+}
+
+.sidebar #btn{
+    position: absolute;
+    color: #fff;
+    top: .4rem;
+    left: 50%;
+    font-size: 1.2rem;
+    line-height: 50px;
+    transform: translateX(-50%);
+    cursor: pointer;
+
+}
+
+.sidebar.active #btn {
+    left: 90%;
+}
+
+.sidebar .top .logo{
+    color: #fff;
+    display: flex;
+    height: 50px;
+    width: 100%;
+    align-items: center;
+    pointer-events: none;
+    opacity: 0;
+}
+.sidebar.active .top .logo{
+    opacity: 1;
+}
+
+.top .logo{
+    font-size: 2rem;
+    margin-right: 5px;
+}
+
+.user{
+    display: flex;
+    align-items: column;
+    margin: 1rem 0;
+    padding-right: 5px;
+}
+
+.user p{
+    color: #fff;
+    opacity: 1;
+    margin-left: 1rem;
+
+}
+
+.bold {
+    font-weight: 600;
+}
+.balance p{
+    font-weight: 400;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 14px;
+    color: white;
+    padding-left: 10px;
+}
+.sidebar p{
+    opacity: 0;
+}
+.sidebar.active p{
+    opacity: 1;
+}
+
+.sidebar ul li {
+    position: relative;
+    list-style-type: none;
+    height: 50px;
+    width: 90%;
+    margin: 0.8rem auto;
+    line-height: 50px;
+}
+
+.sidebar ul li a {
+    color: #fff;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    border-radius: 0.8rem;
+}
+
+.sidebar ul li a:hover {
+    background-color: #fff;
+    color: #12171e;
+}
+
+.sidebar ul li a i{
+    min-width: 50px;
+    height: 50px;
+    text-align: center;
+    border-radius: 12px;
+    line-height: 50px;
+}
+
+.sidebar .nav-item{
+    opacity: 0;
+}
+
+.sidebar.active .nav-item {
+    opacity: 1;
+}
+
+.sidebar ul li .tootip{
+    position: absolute;
+    left: 125px;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0.5rem 0.8rem rgb(0, 0, 0, 0.2);
+    border-radius: .6rem;
+    padding: .4rem 1.2rem;
+    line-height: 1.8rem;
+    z-index: 20;
+    opacity: 0;
+}
+
+.sidebar ul li:hover .tootip{
+    opacity: 1;
+}
+
+.sidebar.active ul li .tootip{
+    display: none;
+}
+.main-content {
+    position: relative;
+    background-color: #eee;
+    height: auto;
+    top: 0;
+    left: 80px; /* Matches the initial width of the sidebar */
+    transition: all 0.5s ease;
+    width: calc(100% - 80px); /* Adjusts to the initial sidebar width */
+    padding: 0;
+}
+
+.sidebar.active ~ .main-content {
+    left: 250px; /* Matches the expanded sidebar width */
+    width: calc(100% - 250px); /* Adjusts to the expanded sidebar width */
+}
+
+.container{
+    display: flex;
+    justify-content: space-between;
+}
+
+#heading {
+    display: flex;
+    align-items: center; /* Align items vertically in the center */
+    justify-content: space-between; /* Space between logo and navbar */
+    padding: 10px 40px; /* Add padding as needed */
+    background-image: linear-gradient(#12171e, #0B264D); /* Background color for the header */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
+    border-radius: 0px;
+    margin: 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+#heading h3 {
+    color: white;
+    margin-right: 20px; /* Space between logo and button */
+    font-size: 24px; /* Adjust font size as needed */
+}
+
+#depositButton {
+    background-color: white; /* Button color similar to the image */
+    color: black;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    margin-right: auto; /* Pushes the rest of the navbar to the right */
+    font-weight: bold;
+    cursor: pointer;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#navbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-grow: 1;
+}
+
+.search-input{
+    padding: 6px;
+  border: none;
+  margin-top: 8px;
+  margin-right: 10px;
+  font-size: 17px;
+  border-radius: 5px;
+}
+
+.search{
+    background-color: orange; /* Button color similar to the image */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 6px 20px;
+    margin-right: auto; /* Pushes the rest of the navbar to the right */
+    font-weight: bold;
+    cursor: pointer;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+
+
+#navbar li {
+    list-style: none;
+    padding: 0 20px;
+    position: relative;
+}
+
+#navbar li a {
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 400;
+    color: white;
+    font-family: 'FuturaBold', Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    transition: 0.3s ease;
+}
+
+
+#crypto {
+    text-align: center;
+    margin: 20px;
+}
+
+#crypto h6 {
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.assets-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.asset-card {
+    width: 150px;
+    height: 200px;
+    background-color: #12171e;
+    border-radius: 10px;
+    font-size: 14px;
+    font-family: "Nunito", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  padding: 30px;
+  color: white;
+  transition: all ease 0.5s;
+  border: 2px solid #12171e;
+}
+
+.asset-card:hover {
+    width: 200px;
+    border-color: orange;
+    
+}
+
+.carousel-indicators {
+    margin-top: 20px;
+}
+
+.dot {
+    height: 10px;
+    width: 10px;
+    margin: 0 5px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.dot.active {
+    background-color: #ffffff;
+}
+
+#portfolio {
+    display: flex;
+    align-items: flex-start;
+    margin: 20px;
+    position: relative;
+    height: 50px;
+}
+
+.currency-symbol {
+    font-size: 20px;
+    margin-right: 5px;
+    font-weight: bold;
+}
+
+.currency-value {
+    font-size: 60px;
+    font-weight: bold;
+}
+#crypto-port {
+    text-align: center;
+    margin: 20px;
+}
+
+#crypto-port h6 {
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: bold;
+}
+.crypto-logo{
+    width: 30px;
+    /* Adjust the width of the coin logo */
+    height: 30px;
+}
+
