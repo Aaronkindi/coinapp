@@ -1,4 +1,3 @@
-
 <?php
 
 // Start the session
@@ -36,6 +35,7 @@ if (isset($_SESSION['email'])) {
 
 $con->close();
 ?>
+
 
 
 

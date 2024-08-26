@@ -188,7 +188,7 @@
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
     border-radius: 0px;
     margin: 0;
-    position: sticky;
+    
     top: 0;
     z-index: 1000;
 }
@@ -347,4 +347,3 @@
     /* Adjust the width of the coin logo */
     height: 30px;
 }
-
