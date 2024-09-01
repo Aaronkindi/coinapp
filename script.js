@@ -32,6 +32,11 @@ document.addEventListener("DOMContentLoaded", () => {
       const card = document.createElement("div");
       card.classList.add("asset-card");
 
+      // Add an event listener to make the card clickable
+      card.addEventListener("click", () => {
+        redirectToTransactionPage(coin);
+      });
+
       card.innerHTML = `
         <img src="${coin.iconUrl}" class="crypto-logo" alt="${coin.name}">
         <p>${coin.symbol}</p>
@@ -45,6 +50,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     updateActiveDot(pageIndex); // Update the active dot
+  }
+
+  // Function to redirect to a transaction page with the selected coin's details
+  function redirectToTransactionPage(coin) {
+    // Redirect to the transaction page, passing the coin's symbol as a query parameter
+    window.location.href = `buycoin.html?symbol=${coin.symbol}&name=${coin.name}&price=${coin.price}`;
   }
 
   // Function to set up pagination dots
@@ -86,6 +97,11 @@ document.addEventListener("DOMContentLoaded", () => {
     filteredCoins.forEach((coin) => {
       const card = document.createElement("div");
       card.classList.add("asset-card");
+
+      // Add an event listener to make the card clickable
+      card.addEventListener("click", () => {
+        redirectToTransactionPage(coin);
+      });
 
       card.innerHTML = `
         <img src="${coin.iconUrl}" class="crypto-logo" alt="${coin.name}">
