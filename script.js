@@ -1,10 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
   const apiKey = "coinranking411c36e5909bfb3dfcec310d01649a6dd8ea4fee7b5e6dac";
   const apiUrl = "https://api.coinranking.com/v2/coins?limit=15"; // Fetch 15 coins for 3 pages
-
   let coins = [];
+  let portfolioData = []; // Portfolio data passed from PHP
 
-  // Fetching cryptocurrency data
+  // Fetch cryptocurrency data
   fetch(apiUrl, {
     method: "GET",
     headers: {
@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
   })
     .then((response) => response.json())
     .then((data) => {
-      coins = data.data.coins;
+      coins = data.data.coins || []; // Ensure coins array is valid
       setupPagination(); // Initialize pagination
       displayCryptoData(0); // Display the first page initially
     })
@@ -54,8 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Function to redirect to a transaction page with the selected coin's details
   function redirectToTransactionPage(coin) {
-    // Redirect to the transaction page, passing the coin's symbol as a query parameter
-    window.location.href = `buycoin.html?symbol=${coin.symbol}&name=${coin.name}&price=${coin.price}`;
+    window.location.href = `buycoin.php?symbol=${coin.symbol}&name=${coin.name}&price=${coin.price}`;
   }
 
   // Function to set up pagination dots
@@ -98,7 +97,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const card = document.createElement("div");
       card.classList.add("asset-card");
 
-      // Add an event listener to make the card clickable
       card.addEventListener("click", () => {
         redirectToTransactionPage(coin);
       });
@@ -126,4 +124,43 @@ document.addEventListener("DOMContentLoaded", () => {
       displayCryptoData(0); // Display the first page if search is cleared
     }
   });
+
+  // Event listener for currency change
+  document.getElementById("currency").addEventListener("change", function () {
+    const selectedCurrency = this.value;
+    displayPortfolio(portfolioData, coins, selectedCurrency); // Recalculate portfolio with new currency
+  });
 });
+
+// Function to fetch and display portfolio data for a specific page using AJAX
+function displayPortfolioData(portfolioData, pageIndex) {
+  const portfolioContainer = document.querySelector("#portfolio-data");
+  portfolioContainer.innerHTML = ""; // Clear any previous data
+
+  const start = pageIndex * 5;
+  const end = start + 5;
+  const pageData = portfolioData.slice(start, end);
+
+  pageData.forEach((item) => {
+    const portfolioItem = document.createElement("div");
+    portfolioItem.classList.add("asset-card-portfolio");
+
+    portfolioItem.innerHTML = `
+      <img src="${item.iconUrl}" class="crypto-logo" alt="${item.cryptoname}">
+      <h6>${item.cryptoname}</h6>
+      <p>Amount: ${parseFloat(item.amount).toFixed(2)}</p>
+      <p>Price: $${parseFloat(item.cryptoprice).toFixed(2)}</p>
+    `;
+
+    portfolioItem.addEventListener("click", () => {
+      redirectToTransactionPage(item); // Assuming a similar functionality exists
+    });
+
+    portfolioContainer.appendChild(portfolioItem);
+  });
+
+  updateActiveDot(pageIndex); // Update the active pagination dot
+}
+
+// Example call to the function
+displayPortfolioData(portfolioData, 0); // Pass in portfolio data and start at page 0

@@ -65,6 +65,7 @@ $con->close();
     <link rel="stylesheet" href="style4.css">
 </head>
 <body>
+<a href="dashboard.php" class="back-button">← Back</a>
     <div class="payment-container">
         <h2>Payment Page</h2>
         <form action="payment.php" method="POST">
