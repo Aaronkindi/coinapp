@@ -63,7 +63,7 @@ $portfolioData = json_encode($response['portfolio']);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style6.css">
 </head>
 <body>
     <div class="sidebar">
@@ -91,7 +91,7 @@ $portfolioData = json_encode($response['portfolio']);
 
         <ul>
             <li>
-                <a href="#">
+                <a href="dashboard.php">
                     <i class="bx bx-grid-alt "></i>
                     <span class="nav-item">Dashboard</span>
                 </a>
@@ -112,8 +112,8 @@ $portfolioData = json_encode($response['portfolio']);
                 <span class="tootip">History</span>
             </li>
             <li>
-                <a href="setting.php">
-                    <i class="bx bx-cog "></i>
+                <a href="#">
+                    <i class="setting.php"></i>
                     <span class="nav-item">Settings</span>
                 </a>
                 <span class="tootip">Settings</span>
@@ -127,21 +127,10 @@ $portfolioData = json_encode($response['portfolio']);
             </li>
         </ul>
     </div>
-
     <div class="main-content">
         <div id="heading">
             <h3>CapitalEdge</h3>
             <button id="depositButton" onclick="redirectTopage()">Deposit</button>
-            <div class="currency-selector">
-                <label for="currency">Select Currency:</label>
-                <select id="currency" name="currency">
-                    <option value="USD">USD</option>
-                    <option value="EUR">EUR</option>
-                    <option value="GBP">GBP</option>
-                    <option value="ZAR">ZAR</option>
-                    <option value="JPY">JPY</option>
-                </select>
-            </div>
             <div>
                 <ul id="navbar">
                     <div class="search-container">
@@ -156,37 +145,10 @@ $portfolioData = json_encode($response['portfolio']);
                 </ul>
             </div>
         </div>
-        <div id="crypto">
-            <h6>TOP STAKING ASSETS</h6>
-            <div class="assets-container"></div>
-            <div class="carousel-indicators">
-                <span class="dot active" data-page="0"></span>
-                <span class="dot" data-page="1"></span>
-                <span class="dot" data-page="2"></span>
             </div>
-        </div>
+            </body>
 
-        <div id="portfolio">
-            <p class="currency-symbol"><?php echo htmlspecialchars($response['currency']); ?></p>
-        </div>
-
-        <div id="crypto-port">
-            <h6>POSITIONS</h6>
-            <div class="assets-container-portfolio" id="portfolio-data">
-                <?php
-                var_dump($response['portfolio']);
-                ?>
-                <!-- Portfolio data will be dynamically inserted here -->
-            </div>
-            <div class="carousel-indicators">
-                <span class="dot active"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
-            </div>
-        </div>
-    </div>
-
-<script>
+            <script>
 // Pass PHP portfolio data to JavaScript
 
 const portfolioData = <?php echo json_encode($response['portfolio'], JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT); ?>;
@@ -223,4 +185,6 @@ function updateCurrencyPreference(currency) {
 <script src="script.js"></script>
 
 </body>
+</html>
+
 </html>

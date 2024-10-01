@@ -17,7 +17,8 @@ if (mysqli_connect_errno()) {
 $response = [
     'balance' => 0.00,
     'currency' => 'USD',
-    'portfolio' => []
+    'portfolio' => [],
+    'transactions' => [] // Initialize the transactions array
 ];
 
 // Check if the user email is stored in the session
@@ -48,12 +49,26 @@ if (isset($_SESSION['email'])) {
     }
 
     $stmt->close();
+
+    // Fetch historical transaction data
+    $stmt = $con->prepare("SELECT cryptoname, cryptoprice, amount, created_at FROM transactions WHERE email = ?");
+    $stmt->bind_param('s', $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    while ($row = $result->fetch_assoc()) {
+        $response['transactions'][] = $row;
+    }
+
+    $stmt->close();
 }
 
 $con->close();
 
-// Encode the portfolio data for use in JavaScript
+// Encode the response data for use in JavaScript
 $portfolioData = json_encode($response['portfolio']);
+$transactionData = json_encode($response['transactions']);
+
 ?>
 
 <!DOCTYPE html>
@@ -63,7 +78,7 @@ $portfolioData = json_encode($response['portfolio']);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style6.css">
 </head>
 <body>
     <div class="sidebar">
@@ -129,35 +144,66 @@ $portfolioData = json_encode($response['portfolio']);
     </div>
 
     <div class="main-content"> 
-    <div id="heading">
-            <h3>CapitalEdge</h3>
-            <button id="depositButton" onclick="redirectTopage()">Deposit</button>
-            <div>
-                <ul id="navbar">
-                    <div class="search-container">
-                        <input type="text" id="searchInput" class="search-input" placeholder="Search...">
-                        <button class="search">
-                            <i class="bx bx-search-alt "></i>
-                        </button>
-                    </div>
-                    <div class="balance">
-                        <p>Balance: <span><?php echo number_format($response['balance'], 2); ?> <?php echo strtoupper($response['currency']); ?></span></p>
-                    </div>
-                </ul>
-     </div>
+        <div id="heading">
+                <h3>CapitalEdge</h3>
+                <button id="depositButton" onclick="redirectTopage()">Deposit</button>
+                <div>
+                    <ul id="navbar">
+                        <div class="search-container">
+                            <input type="text" id="searchInput" class="search-input" placeholder="Search...">
+                            <button class="search">
+                                <i class="bx bx-search-alt "></i>
+                            </button>
+                        </div>
+                        <div class="balance">
+                            <p>Balance: <span><?php echo number_format($response['balance'], 2); ?> <?php echo strtoupper($response['currency']); ?></span></p>
+                        </div>
+                    </ul>
+        </div>
+
+        
+       
+     
     </div>
+   
+    <div class="history">
+    <?php if (!empty($response['transactions'])): ?>
+        <table class="transaction-table">
+            <thead>
+                <tr>
+                    <th>Crypto Name</th>
+                    <th>Crypto Price</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($response['transactions'] as $transaction): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($transaction['cryptoname']); ?></td>
+                        <td>$<?php echo number_format($transaction['cryptoprice'], 2); ?></td>
+                        <td><?php echo number_format($transaction['amount'], 2); ?></td>
+                        <td><?php echo htmlspecialchars($transaction['created_at']); ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <p class="no-transactions">No transactions found.</p>
+    <?php endif; ?>
+</div>
 
 
-     <div class="history">
-
-     </div>
     </div>
 
 
 </body>
+
+
 <script>
 // Pass PHP portfolio data to JavaScript
 const portfolioData = <?php echo $portfolioData; ?>;
+const transactionData = <?php echo $transactionData; ?>;
 
 let btn = document.querySelector('#btn');
 let sidebar = document.querySelector('.sidebar');
@@ -182,5 +228,8 @@ function updateCurrencyPreference(currency) {
     xhr.send("currency=" + currency);
 }
 </script>
+
+
+
 
 </html>

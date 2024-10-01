@@ -102,6 +102,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
         }
         $stmt->close();
+
+        // insert the transaction into the 'transaction history' table
+        $insert_query = "INSERT INTO transactions (email, cryptoname, cryptoprice, amount) VALUES (?, ?, ?, ?)";
+        $stmt = $con->prepare($insert_query);
+
+        if (!$stmt) {
+            die('Insert query peparation failed:'  . $con->error);   
+        }
+
+        $stmt->bind_param('ssdd', $email, $crypto_name, $crypto_price, $amount);
+
+        if ($stmt->execute()) {
+            echo "Transaction successful. You have bought $amount $crypto_name.";
+        } else {
+            echo "Failed to record the transaction. Please try again.";
+        }
+
+        
+
+
     }
 }
 
